@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CartesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ use App\Http\Controllers\Api\UserController;
 
 Route::post('register' , [UserController::class , 'register']);
 Route::post('login' , [UserController::class , 'login']);
-ROute::group([
+Route::group([
     "middleware" => ["auth:sanctum"]
 
 ] , function(){
@@ -34,3 +35,7 @@ ROute::group([
     Route::get('logout' , [UserController::class , 'logout']);
 
 });
+
+
+Route::apiResource('/cartes', CartesController::class);
+
