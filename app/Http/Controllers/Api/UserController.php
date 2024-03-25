@@ -78,7 +78,7 @@ class UserController extends Controller
         auth()->user()->tokens()->delete();
         return response()->json([
             "status" => true,
-            "message" => "user logged successufly"
+            "message" => "user logged  successufly"
         ]);
 
      }
