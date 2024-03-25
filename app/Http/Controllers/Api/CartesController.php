@@ -34,15 +34,13 @@ class CartesController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $user = auth()->user();
-      
-        if (!$user) {
+        if ($user) {
             $cartes = Cartes::create([
                 'titre' => $request->titre,
                 'nom_entreprise' => $request->nom_entreprise,
-                
-                
+                'user_id' => $user
             ]);
     
             return response()->json([
@@ -53,7 +51,8 @@ class CartesController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Unauthorized. Please log in to create a business card.'
+                'message' => 'Unauthorized. Please log in to create a business card.',
+                'user' => $user
             ], 401);
         }
     }

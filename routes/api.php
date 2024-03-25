@@ -24,18 +24,14 @@ use App\Http\Controllers\Api\CartesController;
 //API route
 
 
-Route::post('register' , [UserController::class , 'register']);
-Route::post('login' , [UserController::class , 'login']);
-Route::group([
-    "middleware" => ["auth:sanctum"]
+Route::post('register', [UserController::class, 'register']);
 
-] , function(){
+Route::post('login', [UserController::class, 'login'])->name('login');
 
-    Route::get('profile' , [UserController::class , 'profile']);
-    Route::get('logout' , [UserController::class , 'logout']);
-
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('profile', [UserController::class, 'profile']);
+    Route::get('logout', [UserController::class, 'logout']);
+    Route::apiResource('/cartes', CartesController::class);
 });
 
-
-Route::apiResource('/cartes', CartesController::class);
 
