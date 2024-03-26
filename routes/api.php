@@ -31,7 +31,7 @@ Route::post('login', [UserController::class, 'login'])->name('login');
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
-    Route::apiResource('/cartes', CartesController::class);
 });
 
+Route::apiResource('/cartes', CartesController::class)->middleware('auth:sanctum');
 

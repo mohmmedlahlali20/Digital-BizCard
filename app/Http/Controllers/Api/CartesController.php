@@ -36,11 +36,11 @@ class CartesController extends Controller
     {
         
         $user = auth()->user();
-        if ($user) {
+        if (!$user) {
             $cartes = Cartes::create([
                 'titre' => $request->titre,
                 'nom_entreprise' => $request->nom_entreprise,
-                'user_id' => $user
+                'user_id' => $request->$user
             ]);
     
             return response()->json([
