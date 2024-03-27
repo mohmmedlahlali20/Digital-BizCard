@@ -11,7 +11,8 @@ class Cartes extends Model
 
     protected $fillable =[
         'titre',
-        'nom_entreprise'
+        'nom_entreprise',
+        'user_id'
     ];
 
     public function user()

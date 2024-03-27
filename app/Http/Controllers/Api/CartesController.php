@@ -26,7 +26,7 @@ class CartesController extends Controller
      */
     public function create()
     {
-        //
+        ///home/mohammed/Desktop/Project Api/Digital-BizCard/app
     }
 
     /**
@@ -35,12 +35,12 @@ class CartesController extends Controller
     public function store(Request $request)
     {
         
-        $user = auth()->user();
-        if (!$user) {
+        $user = Auth::user();
+        if ($user) {
             $cartes = Cartes::create([
                 'titre' => $request->titre,
                 'nom_entreprise' => $request->nom_entreprise,
-                'user_id' => $request->$user
+                'user_id' => $user->id
             ]);
     
             return response()->json([
@@ -62,18 +62,12 @@ class CartesController extends Controller
      */
     public function show(Cartes $cartes)
     {
-        try {
-            $carts = Cartes::findOrFail($cartes->id);
+      
+            $cartes = Cartes::findOrFail($cartes->id);
             return response()->json([
                 'status' => true,
-                'carts' => $carts
-            ]);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Business card not found.'
-            ], 404);
-        }
+                'carts' => $cartes
+            ]);   
     }
 
     /**
@@ -87,16 +81,53 @@ class CartesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cartes $cartes)
+    public function update(Request $request,$id)
     {
-        //
-    }
+        $user = Auth::user();
+    
+        if ($user) {
 
+            $cartesToUpdate = Cartes::find($id);
+            if ($cartesToUpdate) {
+                // Validate input data
+                $validatedData = $request->validate([
+                    'titre' => 'required', // Ensure 'titre' is provided and not null
+                    'nom_entreprise' => 'required',
+                ]);
+            
+                // Update the record
+                $cartesToUpdate->update([
+                    'titre' => $validatedData['titre'],
+                    'nom_entreprise' => $validatedData['nom_entreprise'],
+                    'user_id' => $user->id
+                ]);
+            
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Cartes updated successfully',
+                    'carts' => $cartesToUpdate
+                ], 200);
+            
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized. Please log in to update a business card.',
+            ], 401);
+        }
+    }
+    
+    
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Cartes $cartes)
     {
-        //
+        $cartes->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Cartes Deleted successfully',
+            
+        ]);
     }
 }
