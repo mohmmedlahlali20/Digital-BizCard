@@ -16,9 +16,9 @@ use App\Http\Controllers\Api\CartesController;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  //  return $request->user();
-//});
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+  return $request->user();
+});
 
 
 //API route
@@ -33,5 +33,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('logout', [UserController::class, 'logout']);
 });
 
-Route::apiResource('/cartes', CartesController::class)->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::get('/cartes', [CartesController::class, 'index'])->name('cartes.index');
+  Route::post('/cartes', [CartesController::class, 'store'])->name('cartes.store');
+  Route::get('/cartes/{carte}', [CartesController::class, 'show'])->name('cartes.show');
+  Route::patch('/cartes/{carte}', [CartesController::class, 'update'])->name('cartes.update'); // Enclose 'update' within quotes
+  Route::delete('/cartes/{carte}', [CartesController::class, 'destroy'])->name('cartes.destroy');
+});
+
+
 

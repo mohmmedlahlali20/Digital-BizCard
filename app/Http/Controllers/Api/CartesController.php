@@ -14,6 +14,7 @@ class CartesController extends Controller
      */
     public function index()
     {
+        
         $carts = Cartes::all();
         return response()->json([
             'status' => true ,
@@ -28,7 +29,6 @@ class CartesController extends Controller
     {
         ///home/mohammed/Desktop/Project Api/Digital-BizCard/app
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -81,43 +81,48 @@ class CartesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $user = Auth::user();
     
         if ($user) {
-
             $cartesToUpdate = Cartes::find($id);
+    //dd($cartesToUpdate);
             if ($cartesToUpdate) {
-                // Validate input data
+                // Debugging: Check request data
+                //dd($request->all());
+                //dd($request->all());
+                // Validate request data
                 $validatedData = $request->validate([
-                    'titre' => 'required', // Ensure 'titre' is provided and not null
-                    'nom_entreprise' => 'required',
+                    'titre' => 'required|string', // Adjust validation rule if necessary
+                    'nom_entreprise' => 'required|string', // Adjust validation rule if necessary
                 ]);
-            
-                // Update the record
+    
+                // Debugging: Check validated data
+                //dd($validatedData);
+    
                 $cartesToUpdate->update([
                     'titre' => $validatedData['titre'],
                     'nom_entreprise' => $validatedData['nom_entreprise'],
                     'user_id' => $user->id
                 ]);
-            
+    
                 return response()->json([
                     'status' => true,
                     'message' => 'Cartes updated successfully',
                     'carts' => $cartesToUpdate
                 ], 200);
-            
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Unauthorized. Please log in to update a business card.',
-            ], 401);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unauthorized. Please log in to update a business card.',
+                ], 401);
+            }
         }
     }
     
     
-    }
+    
     /**
      * Remove the specified resource from storage.
      */
