@@ -15,9 +15,13 @@ class CartsSeed extends Seeder
     {
         
         Cartes::create([
-            'titre' => 'MOHAMMED',
-            'nom_entreprise' => 'youCOde',
-            'user_id' => 2,
+            'titre' => 'Sample Carte 1',
+            'nom_entreprise' => 'Sample Company 1',
+        ]);
+
+        Cartes::create([
+            'titre' => 'Sample Carte 2',
+            'nom_entreprise' => 'Sample Company 2',
         ]);
     }
 }

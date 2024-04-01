@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/cartes', [CartesController::class, 'index'])->name('cartes.index');
   Route::post('/cartes', [CartesController::class, 'store'])->name('cartes.store');
   Route::get('/cartes/{carte}', [CartesController::class, 'show'])->name('cartes.show');
-  Route::patch('/cartes/{carte}', [CartesController::class, 'update'])->name('cartes.update'); // Enclose 'update' within quotes
+  Route::patch('/cartes/{carte}', [CartesController::class, 'update'])->name('cartes.update');
   Route::delete('/cartes/{carte}', [CartesController::class, 'destroy'])->name('cartes.destroy');
 });
 

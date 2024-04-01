@@ -87,20 +87,15 @@ class CartesController extends Controller
     
         if ($user) {
             $cartesToUpdate = Cartes::find($id);
-    //dd($cartesToUpdate);
+
             if ($cartesToUpdate) {
-                // Debugging: Check request data
-                //dd($request->all());
-                //dd($request->all());
-                // Validate request data
+             
                 $validatedData = $request->validate([
-                    'titre' => 'required|string', // Adjust validation rule if necessary
-                    'nom_entreprise' => 'required|string', // Adjust validation rule if necessary
+                    'titre' => 'required|string', 
+                    'nom_entreprise' => 'required|string', 
                 ]);
     
-                // Debugging: Check validated data
-                //dd($validatedData);
-    
+
                 $cartesToUpdate->update([
                     'titre' => $validatedData['titre'],
                     'nom_entreprise' => $validatedData['nom_entreprise'],
